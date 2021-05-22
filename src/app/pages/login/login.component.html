@@ -1,0 +1,25 @@
+<main class="form-signin">
+  <form [formGroup]="formLogin" (ngSubmit)="enviarLogin()">
+    <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+    <h1 class="h3 mb-3 fw-normal">Por favor, complete</h1>
+
+    <div class="form-floating">
+      <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" formControlName="email">
+      <label for="floatingInput">Email</label>
+      <small class="invalid" *ngIf="formLogin.get('email')?.errors?.email && formLogin.get('email')?.touched">Formato inválido</small>
+      <small class="invalid" *ngIf="formLogin.get('email')?.errors?.required && formLogin.get('email')?.touched">El email es requerido</small>
+      
+    </div>
+    <div class="form-floating">
+      <input type="password" class="form-control" id="floatingPassword" placeholder="Password" formControlName="password">
+      <label for="floatingPassword">Password</label>
+      <small class="invalid" *ngIf="formLogin.get('password')?.errors?.required && formLogin.get('password')?.touched">La contraseña es requerida</small>
+    </div>
+
+    <div class="checkbox mb-3">
+      <button class="w-100 btn btn-lg btn-primary" type="submit" [disabled]="formLogin.invalid">Login</button>
+    </div>
+    <button class="w-100 btn btn-md btn-primary" type="submit" [disabled]="formLogin.invalid">Acceso Rápido</button>
+    <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
+  </form>
+</main>
