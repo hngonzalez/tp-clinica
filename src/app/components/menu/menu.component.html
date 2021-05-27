@@ -36,10 +36,10 @@
         </a>
 
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-          <li><a class="nav-link px-2 link-secondary">Overview</a></li>
-          <li><a class="nav-link px-2 link-dark">Inventory</a></li>
-          <li><a class="nav-link px-2 link-dark">Customers</a></li>
-          <li><a class="nav-link px-2 link-dark" routerLink='usuarios'>Usuarios</a></li>
+          <li><a class="nav-link px-2 link-secondary" routerLink='home'>Home</a></li>
+          <li><a class="nav-link px-2 link-dark" *ngIf="esPaciente == 'S'" routerLink='/acceso/misturnos'>Mis turnos</a></li>
+          <li><a class="nav-link px-2 link-dark" *ngIf="esPaciente == 'S' && esAdmin == 'S'" routerLink='/acceso/solicitar'>Solicitar Turno</a></li>
+          <li><a class="nav-link px-2 link-dark" *ngIf="esAdmin == 'S'" routerLink='usuarios'>Usuarios</a></li>
         </ul>
 
         <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">

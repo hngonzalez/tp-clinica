@@ -1,83 +1,88 @@
 <div class="container">
-    <main>
-      <div class="py-5 text-center">
-        <img class="d-block mx-auto mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
-        <h2>Formulario de Registro Especialista</h2>
-      </div>
-  
-      <div class="row g-5">
-          <form class="needs-validation" novalidate>
-            <div class="row g-3">
-              <div class="col-sm-6">
-                <label for="firstName" class="form-label">Nombre</label>
-                <input type="text" class="form-control" id="firstName" placeholder="" value="">
-                <div class="invalid-feedback">
-                  Valid first name is required.
-                </div>
-              </div>
-  
-              <div class="col-sm-6">
-                <label for="lastName" class="form-label">Apellido</label>
-                <input type="text" class="form-control" id="lastName" placeholder="" value="">
-                <div class="invalid-feedback">
-                  Valid last name is.
-                </div>
-              </div>
-  
-              <div class="col-md-3">
-                <label for="cc-expiration" class="form-label">Edad</label>
-                <input type="text" class="form-control" id="cc-expiration" placeholder="">
-                <div class="invalid-feedback">
-                  Expiration date
-                </div>
-              </div>
-  
-              <div class="col-md-3">
-                <label for="cc-expiration" class="form-label">DNI</label>
-                <input type="text" class="form-control" id="cc-expiration" placeholder="">
-                <div class="invalid-feedback">
-                  Expiration date
-                </div>
-              </div>
-  
-              <div class="col-md-3">
-                <label for="cc-expiration" class="form-label">Especialista</label>
-                <input type="text" class="form-control" id="cc-expiration" placeholder="">
-                <div class="invalid-feedback">
-                  Expiration date
-                </div>
-              </div>
-  
-              <div class="col-6">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" placeholder="you@example.com">
-                <div class="invalid-feedback">
-                  Please enter a valid email address for shipping updates.
-                </div>
-              </div>
-  
-              <div class="col-6">
-                <label for="address" class="form-label">Password</label>
-                <input type="text" class="form-control" id="address">
-                <div class="invalid-feedback">
-                  Please enter your shipping address.
-                </div>
-              </div>            
+  <main>
+    <div class="py-5 text-center">
+      <img class="d-block mx-auto mb-4" [src]="imgEspecialista" alt="" width="72" height="57">
+      <h2>Formulario de Registro Especialista</h2>
+    </div>
+
+    <div class="row g-5">
+        <form class="needs-validation" [formGroup]="formaEspecialista" (ngSubmit)="enviarRegistro()">
+          <div class="row g-3">
+            <div class="col-sm-6">
+              <label for="firstName" class="form-label">Nombre</label>
+              <input type="text" class="form-control" id="firstName" formControlName="nombre">
+              <small class="invalid" *ngIf="formaEspecialista.get('nombre')?.errors?.required && formaEspecialista.get('nombre')?.touched">El nombre es requerido</small>
+              <small class="invalid" *ngIf="formaEspecialista.get('nombre')?.errors?.contieneEspacios && formaEspecialista.get('nombre')?.touched">No puede contener espacios</small>
             </div>
-  
-            <hr class="my-4">
+
+            <div class="col-sm-6">
+              <label for="lastName" class="form-label">Apellido</label>
+              <input type="text" class="form-control" id="lastName" formControlName="apellido">
+              <small class="invalid" *ngIf="formaEspecialista.get('apellido')?.errors?.required && formaEspecialista.get('apellido')?.touched">El nombre es requerido</small>
+            </div>
+
+            <div class="col-md-3">
+              <label for="cc-expiration" class="form-label">Edad</label>
+              <input type="number" class="form-control" id="edad" formControlName="edad">
+              <small class="invalid" *ngIf="formaEspecialista.get('edad')?.errors?.required  && formaEspecialista.get('edad')?.touched">La edad es requerida</small>
+              <small class="invalid" *ngIf="formaEspecialista.get('edad')?.errors?.min || formaEspecialista.get('edad')?.errors?.max  && formaEspecialista.get('edad')?.touched">La edad debe ser de entre 18 a 99 años</small>
+            </div>
+
+            <div class="col-md-3">
+              <label for="cc-expiration" class="form-label">DNI</label>
+              <input type="text" class="form-control" id="cc-expiration" formControlName="dni">
+              <small class="invalid" *ngIf="formaEspecialista.get('dni')?.errors?.required && formaEspecialista.get('dni')?.touched">El dni es requerido</small>
+              <small class="invalid" *ngIf="formaEspecialista.get('dni')?.errors?.nonumerico && formaEspecialista.get('dni')?.touched">Por favor, ingrese números</small>
+            </div>
+
+            <div class="col-md-3">
+              <label for="cc-expiration" class="form-label">Especialidad</label>
+              <select class="form-select" aria-label="Default select example" formControlName="especialidad">
+                <option value="1" selected>Nueva Especialidad</option>
+                <option *ngFor="let espe of listaEspecialidades; let i = index" [attr.data-index]="i">{{espe.especialidad}}</option>
+                <!--option value="dermatología">Dermatología</option>
+                <option value="otorrinolaringologia">Otorrino</option-->
+              </select>
+              <!--input type="text" class="form-control" id="cc-expiration" formControlName="os"-->
+              <small class="invalid" *ngIf="formaEspecialista.get('especialidad')?.value != '1' && formaEspecialista.get('especialidad')?.errors?.required && formaEspecialista.get('especialidad')?.touched">Especialidad requerida</small>
+            </div>
             
-            <button class="w-100 btn btn-primary btn-lg" type="submit">Registrar</button>
-          </form>
-      </div>
-    </main>
-  
-    <footer class="my-5 pt-5 text-muted text-center text-small">
-      <p class="mb-1">&copy; 2017–2021 Company Name</p>
-      <ul class="list-inline">
-        <li class="list-inline-item"><a href="#">Privacy</a></li>
-        <li class="list-inline-item"><a href="#">Terms</a></li>
-        <li class="list-inline-item"><a href="#">Support</a></li>
-      </ul>
-    </footer>
+            <div *ngIf="formaEspecialista.get('especialidad')?.value == '1'" class="col-md-3">
+              <label for="cc-expiration" class="form-label">Especifique su nueva especialidad..</label>
+              <input type="text" class="form-control" id="cc-expiration" formControlName="nuevaEspecialidad">
+              <small class="invalid" *ngIf="formaEspecialista.get('especialidad')?.value == '1' && formaEspecialista.get('nuevaEspecialidad')?.errors?.required && formaEspecialista.get('nuevaEspecialidad')?.touched">Especialidad requerida</small>
+            </div>
+
+            <div class="col-6">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" id="email" placeholder="you@example.com" formControlName="email">
+              <div class="invalid-feedback">
+                Please enter a valid email address for shipping updates.
+              </div>
+            </div>
+
+            <div class="col-6">
+              <label for="address" class="form-label">Password</label>
+              <input type="password" class="form-control" id="address" formControlName="password">
+              <div class="invalid-feedback">
+                Please enter your shipping address.
+              </div>
+            </div>            
+          </div>
+
+          <hr class="my-4">
+          
+          <button class="w-100 btn btn-primary btn-lg" type="submit" [disabled]="formaEspecialista.invalid">Registrar</button>
+        </form>
+    </div>
+  </main>
+
+  <footer class="my-5 pt-5 text-muted text-center text-small">
+    <p class="mb-1">&copy; 2017–2021 Company Name</p>
+    <ul class="list-inline">
+      <li class="list-inline-item"><a href="#">Privacy</a></li>
+      <li class="list-inline-item"><a href="#">Terms</a></li>
+      <li class="list-inline-item"><a href="#">Support</a></li>
+    </ul>
+  </footer>
 </div>

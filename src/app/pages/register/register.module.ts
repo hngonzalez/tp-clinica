@@ -6,13 +6,15 @@ import { RegPacienteComponent } from './reg-paciente/reg-paciente.component';
 import { RegEspecialistaComponent } from './reg-especialista/reg-especialista.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RegOkPacienteComponent } from './reg-ok-paciente/reg-ok-paciente.component';
+import { RegOkEspecialistaComponent } from './reg-ok-especialista/reg-ok-especialista.component';
 
 
 @NgModule({
   declarations: [
     RegPacienteComponent,
     RegEspecialistaComponent,
-    RegOkPacienteComponent
+    RegOkPacienteComponent,
+    RegOkEspecialistaComponent
   ],
   imports: [
     CommonModule,

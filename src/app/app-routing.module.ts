@@ -9,6 +9,8 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', loadChildren: () => 
                       import('./pages/register/register.module').then(m => m.RegisterModule) },
+  {path: 'acceso', loadChildren: () => 
+                    import('./pages/acceso/acceso.module').then(m => m.AccesoModule) },
   {path: 'usuarios', component: UsuariosComponent},
 ];
 

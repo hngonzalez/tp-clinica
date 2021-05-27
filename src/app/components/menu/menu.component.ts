@@ -9,18 +9,23 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class MenuComponent implements OnInit {
   user:any;
+  esAdmin:string = 'N';
+  esPaciente:string = 'N';
   
   constructor(private router:Router,
-              private auth:AuthService) { }
+              private auth:AuthService) {
+    this.esAdmin = String(localStorage.getItem('administrador'));
+    this.esPaciente = String(localStorage.getItem('tipo')) == 'P' ? 'S' : 'N';
+  }
 
   ngOnInit(): void {
     this.auth.getUserState()
     .subscribe( user => {
       this.user = user;
-      //console.log(user);
+      console.log(user);
     })
 
-    //this.curUser = Boolean(localStorage.getItem('online'));
+    //console.log( "asdasd" + String(localStorage.getItem('administrador')));
   }
 
   registro(user:string){

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-usuarios',
@@ -6,10 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./usuarios.component.css']
 })
 export class UsuariosComponent implements OnInit {
+  listaUsuarios:any;
 
-  constructor() { }
+  constructor(private afAuth:AuthService) { }
 
   ngOnInit(): void {
+    this.listaUsuarios = this.afAuth.loteDeUsuarios();
   }
 
 }

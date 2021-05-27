@@ -11,6 +11,8 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { environment } from 'src/environments/environment';
 import { UsuariosComponent } from './pages/usuarios/usuarios.component';
+import { TablaUsuariosComponent } from './pages/usuarios/components/tabla-usuarios/tabla-usuarios.component';
+import { NuevosUsuariosComponent } from './pages/usuarios/components/nuevos-usuarios/nuevos-usuarios.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { UsuariosComponent } from './pages/usuarios/usuarios.component';
     HomeComponent,
     LoginComponent,
     MenuComponent,
-    UsuariosComponent
+    UsuariosComponent,
+    TablaUsuariosComponent,
+    NuevosUsuariosComponent
   ],
   imports: [
     BrowserModule,

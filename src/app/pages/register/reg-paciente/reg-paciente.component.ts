@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class RegPacienteComponent implements OnInit {
   formaPaciente!:FormGroup;
+  imgPaciente:string;
 
   constructor(private fb:FormBuilder,
               private auth:AuthService) {
@@ -22,6 +23,7 @@ export class RegPacienteComponent implements OnInit {
       'email': ['', Validators.required],
       'password': ['', Validators.required]
     });
+    this.imgPaciente = '../../../../assets/img/enfermero.svg';
   }
 
   ngOnInit(): void {
@@ -53,6 +55,6 @@ export class RegPacienteComponent implements OnInit {
     nuevoUsuario.mail = this.formaPaciente.get('email')?.value;
     nuevoUsuario.password = this.formaPaciente.get('password')?.value;
 
-    this.auth.registrar(nuevoUsuario);
+    this.auth.registrar(nuevoUsuario, 'P','N');
   }
 }
