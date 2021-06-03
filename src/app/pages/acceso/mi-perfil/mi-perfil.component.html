@@ -1,0 +1,100 @@
+<div class="container">
+    <div class="row gutters">
+    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+    <div class="card h-100">
+        <div class="card-body">
+            <div class="account-settings">
+                <div class="user-profile">
+                    <div class="user-avatar">
+                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Maxwell Admin">
+                    </div>
+                    <h5 class="user-name">{{dataUserNombre}} {{dataUserApellido}}</h5>
+                    <h6 class="user-email">{{dataUserMail}}</h6>
+                    <br>
+                    <h6 class="user-email">Último ingreso: <br> {{dataUserUltimaInicioSesion}}</h6>
+                </div>
+                <div class="about">
+                    <h5>About</h5>
+                    <p>
+                        Habilitado: {{dataUserHabilitado}}
+                        <br>
+                        {{dataUserTipo}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+    <div class="card h-100">
+        <div *ngIf="dataUserTipo == 'Especialista'" class="card-body">
+            <!--div class="row gutters">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <h6 class="mb-2 text-primary">Personal Details</h6>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" class="form-control" id="fullName" placeholder="Enter full name">
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label for="eMail">Email</label>
+                        <input type="email" class="form-control" id="eMail" placeholder="Enter email ID">
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="text" class="form-control" id="phone" placeholder="Enter phone number">
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label for="website">Website URL</label>
+                        <input type="url" class="form-control" id="website" placeholder="Website url">
+                    </div>
+                </div>
+            </div-->
+            <div class="row gutters">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <h6 class="mt-3 mb-2 text-primary">Disponibilidad de atención</h6>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="form-group">
+                        <select id="selEspecialidad" class="form-select" (change)="habilitoAlgo()" aria-label="Default select example">
+                            <option selected>Seleccione una especialidad</option>
+                            <option *ngFor="let espe of listaEspecialidades; let i = index" value="{{espe.especialidad}}" [attr.data-index]="i">{{espe.especialidad}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="zIp">Fecha disponible</label>
+                        <input class="form-control" type="date" value="2011-08-19" id="dateInput">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <div *ngFor="let hora of disponibilidadHoraria; let i = index" [attr.data-index]="i" class="form-check">
+                            <input class="form-check-input" type="checkbox" value="{{hora}}" id="chk{{i}}">
+                            <label class="form-check-label" for="chk{{i}}">
+                              {{hora}}
+                            </label>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+            <div class="row gutters">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="text-right">
+                        <button type="button" id="submit" name="submit" (click)="actualizarInfo()" class="btn btn-primary">Update</button>
+                        <br><br>
+                        <small class="valid" *ngIf="graboDatos">Cambios grabados!</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>

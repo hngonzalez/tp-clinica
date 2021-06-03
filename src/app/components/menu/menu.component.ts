@@ -14,7 +14,8 @@ export class MenuComponent implements OnInit {
   
   constructor(private router:Router,
               private auth:AuthService) {
-    this.esAdmin = String(localStorage.getItem('administrador'));
+    console.log(localStorage);
+    this.esAdmin = String(localStorage.getItem('tipo')) == 'A' ? 'S' : 'N';
     this.esPaciente = String(localStorage.getItem('tipo')) == 'P' ? 'S' : 'N';
   }
 
@@ -24,7 +25,7 @@ export class MenuComponent implements OnInit {
       this.user = user;
       console.log(user);
     })
-
+    
     //console.log( "asdasd" + String(localStorage.getItem('administrador')));
   }
 

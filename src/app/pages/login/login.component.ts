@@ -27,4 +27,12 @@ export class LoginComponent implements OnInit {
     //console.log(psw);
     this.auth.login(email, psw);
   }
+
+  enviarLogin2() {
+    let email = 'naikido.gz@hotmail.com';
+    let psw = '123456';
+
+    //console.log(psw);
+    this.auth.login(email, psw);
+  }
 }

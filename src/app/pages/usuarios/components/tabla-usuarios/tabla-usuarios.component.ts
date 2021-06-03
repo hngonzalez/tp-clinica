@@ -16,4 +16,7 @@ export class TablaUsuariosComponent implements OnInit {
     //console.log(this.listaUsuarios);
   }
 
+  habilitarUsuario(mailUser:string) {
+    this.afAuth.habilitarUsuario(mailUser);
+  }
 }

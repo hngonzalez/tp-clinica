@@ -5,6 +5,7 @@ import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/fire
 import { AngularFireAuth } from "@angular/fire/auth";
 import firebase from "firebase/app";
 import { Router } from '@angular/router';
+import { Administrador } from '../models/administrador';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,7 @@ export class AuthService {
   login(email:string, psw:string) {
     this.afAuth.signInWithEmailAndPassword(email, psw)
       .catch(error => {
-        console.log(error);
+        //console.log(error);
         //this.router.navigate(['loginerror']);
       })
       .then(userCredential => {
@@ -64,6 +65,7 @@ export class AuthService {
   setLocalStorageData(userCredential:firebase.auth.UserCredential, idDoc:string){
     var docRef = this.referenciaAlaColeccion.doc(idDoc);
     docRef.get().subscribe( usersData => { 
+      //console.log(usersData.data())
       /* Seteo el localStorage */
       localStorage.setItem('idDoc', idDoc);
       localStorage.setItem('displayName', usersData.data().name);
@@ -72,14 +74,18 @@ export class AuthService {
       localStorage.setItem('lastSignInTime', String(userCredential.user?.metadata.lastSignInTime));
       localStorage.setItem('tipo', String(usersData.data().tipo));
       localStorage.setItem('habilitado', String(usersData.data().habilitado));
-      localStorage.setItem('administrador', String(usersData.data().administrador));
+      localStorage.setItem('mail', String(usersData.data().mail));
+      localStorage.setItem('nombre', String(usersData.data().nombre));
+      localStorage.setItem('apellido', String(usersData.data().apellido));
+      localStorage.setItem('tipo', String(usersData.data().tipo));
+      localStorage.setItem('habilitado', String(usersData.data().habilitado));
     });    
   }
 
   /* -------------------------------------
     SECCION REGISTRO
   ------------------------------------- */ 
-  registrar(nuevoUsuario:Paciente | Especialista, dato:string, nuevaEspecialidad:string) {
+  registrar(nuevoUsuario:Paciente | Especialista | Administrador, dato:string, nuevaEspecialidad:string) {
 
     this.dato = dato;
     this.nuevaEspecialidad = nuevaEspecialidad;
@@ -114,6 +120,9 @@ export class AuthService {
       case 'E':
         nusr = new Especialista();
         break;
+      case 'A':
+        nusr = new Administrador();
+        break;
     }
 
     nusr = this.nUser;
@@ -127,7 +136,7 @@ export class AuthService {
     return this.db.doc(`users/${userCredential.user?.uid}`).set({
       ...nusr,
       habilitado: 'N',
-      administrador: 'N',
+      administrador: this.dato == 'A' ? 'S' : 'N',
       tipo: this.dato
     });
   }
@@ -145,19 +154,21 @@ export class AuthService {
       querySnapshot.forEach((userDoc) => {
   
           //userDoc contains all metadata of Firestore object, such as reference and id
-          //console.log(userDoc)
+          console.log(userDoc.data())
           //If you want to get doc data
           var userDocData = userDoc.data()
           //console.dir(userDocData)
 
-          listita.push({
-            nombre: userDoc.data().nombre,
-            mail: userDoc.data().mail,
-            tipo: userDoc.data().tipo,
-            habilitado: userDoc.data().habilitado,
-            administrador: userDoc.data().administrador,
-          })
-
+          if (userDoc.data().tipo == 'E' || userDoc.data().tipo == 'A') {
+            listita.push({
+              nombre: userDoc.data().nombre,
+              apellido: userDoc.data().apellido,
+              mail: userDoc.data().mail,
+              tipo: userDoc.data().tipo,
+              habilitado: userDoc.data().habilitado,
+              administrador: userDoc.data().administrador,
+            })  
+          }
       })
     })
 
@@ -188,4 +199,55 @@ export class AuthService {
 
     return listita;
   }
+
+  listaEspecialistas(dato:string) {
+    const refEspecialidades = this.db.collection('users');
+    const collection3 = refEspecialidades.get();
+    let listita = new Array();
+    collection3.subscribe((querySnapshot) => {
+
+      //querySnapshot is "iteratable" itself
+      querySnapshot.forEach((userDoc) => {
+          
+          //userDoc contains all metadata of Firestore object, such as reference and id
+          //console.log(userDoc.id)
+          //If you want to get doc data
+          var userDocData = userDoc.data()
+          //console.dir(dato)
+
+          if (userDoc.get('especialidad') == dato) {
+            listita.push({
+              id: userDoc.id,
+              especialidad: userDoc.get('nombre') + " " + userDoc.get('apellido')
+            })  
+          }
+
+      })
+    })
+
+    return listita;
+  }
+
+  habilitarUsuario(mailUser:string) {
+    let refUsuarios = this.db.collection('users');
+    let collectionUsers = refUsuarios.get();
+
+    collectionUsers.subscribe((querySnapshot) => {
+      querySnapshot.forEach(usuario => {
+        //console.log(usuario.data())
+
+        /* Verifico que sea el usuario */
+        if (mailUser == usuario.get('mail')) {
+          /* Con su ID busco y lo habilito */
+          this.db.doc(`users/${usuario.id}`).update({
+            habilitado: 'S'
+          })
+        }
+
+      })
+
+    })
+    
+  }
+  
 }

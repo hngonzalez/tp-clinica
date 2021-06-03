@@ -15,14 +15,15 @@
       <div class="col-md-3 text-end">
         <div class="dropdown">
           <button type="button" class="btn btn-outline-primary me-2" *ngIf="!user" routerLink='login'>Login</button>
-          <button class="btn btn-primary dropdown-toggle" *ngIf="!user" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+          <button type="button" class="btn btn-primary me-2" *ngIf="!user" routerLink='regis'>Register</button>
+          <!--button class="btn btn-primary dropdown-toggle" *ngIf="!user" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
             Register
-          </button>
+          </button-->
           <!--button type="button" class="btn btn-outline-primary me-2" *ngIf="user" (click)="logout()">Logout</button-->
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+          <!--ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
             <li><button class="dropdown-item" type="button" routerLink='register/paciente'>Paciente</button></li>
             <li><button class="dropdown-item" type="button" routerLink='register/especialista'>Especialista</button></li>
-          </ul>
+          </ul-->
         </div>
       </div>
     </header>
@@ -37,21 +38,20 @@
 
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
           <li><a class="nav-link px-2 link-secondary" routerLink='home'>Home</a></li>
-          <li><a class="nav-link px-2 link-dark" *ngIf="esPaciente == 'S'" routerLink='/acceso/misturnos'>Mis turnos</a></li>
-          <li><a class="nav-link px-2 link-dark" *ngIf="esPaciente == 'S' && esAdmin == 'S'" routerLink='/acceso/solicitar'>Solicitar Turno</a></li>
+          <li><a class="nav-link px-2 link-dark" *ngIf="(esPaciente == 'N' && esAdmin == 'N')"routerLink='/acceso/misturnos-especialista'>Mis turnos</a></li>
+          <li><a class="nav-link px-2 link-dark" *ngIf="(esPaciente == 'N' && esAdmin == 'N')"routerLink='/acceso/pacientes'>Pacientes</a></li>
+          <li><a class="nav-link px-2 link-dark" *ngIf="(esPaciente == 'S')" routerLink='/acceso/misturnospaciente'>Mis turnos</a></li>
+          <li><a class="nav-link px-2 link-dark" *ngIf="(esAdmin == 'S')" routerLink='/acceso/turnos'>Turnos</a></li>
+          <li><a class="nav-link px-2 link-dark" *ngIf="(esPaciente == 'S' || esAdmin == 'S')" routerLink='/acceso/solicitar'>Solicitar Turno</a></li>
           <li><a class="nav-link px-2 link-dark" *ngIf="esAdmin == 'S'" routerLink='usuarios'>Usuarios</a></li>
         </ul>
-
-        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-          <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
-        </form>
 
         <div class="dropdown text-end">
           <a class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
             <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
           </a>
           <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-            <li><a class="dropdown-item">Profile</a></li>
+            <li><a class="dropdown-item" routerLink='/acceso/miperfil'>Mi perfil</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
           </ul>

@@ -7,6 +7,8 @@ import { RegEspecialistaComponent } from './reg-especialista/reg-especialista.co
 import { ReactiveFormsModule } from '@angular/forms';
 import { RegOkPacienteComponent } from './reg-ok-paciente/reg-ok-paciente.component';
 import { RegOkEspecialistaComponent } from './reg-ok-especialista/reg-ok-especialista.component';
+import { RegAdministradorComponent } from './reg-administrador/reg-administrador.component';
+import { RegisterpageComponent } from './registerpage/registerpage.component';
 
 
 @NgModule({
@@ -14,7 +16,9 @@ import { RegOkEspecialistaComponent } from './reg-ok-especialista/reg-ok-especia
     RegPacienteComponent,
     RegEspecialistaComponent,
     RegOkPacienteComponent,
-    RegOkEspecialistaComponent
+    RegOkEspecialistaComponent,
+    RegAdministradorComponent,
+    RegisterpageComponent
   ],
   imports: [
     CommonModule,

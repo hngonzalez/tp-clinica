@@ -1,0 +1,66 @@
+<div class="container">
+    <main>
+      <div class="py-5 text-center">
+        <img class="d-block mx-auto mb-4" [src]="imgAdministrador" alt="" width="72" height="57">
+        <h2>Formulario de Registro Administrador</h2>
+      </div>
+  
+      <div class="row g-5">
+          <form class="needs-validation" [formGroup]="formaAdministrador" (ngSubmit)="enviarRegistro()">
+            <div class="row g-3">
+              <div class="col-sm-6">
+                <label for="firstName" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="firstName" formControlName="nombre">
+                <small class="invalid" *ngIf="formaAdministrador.get('nombre')?.errors?.required && formaAdministrador.get('nombre')?.touched">El nombre es requerido</small>
+                <small class="invalid" *ngIf="formaAdministrador.get('nombre')?.errors?.contieneEspacios && formaAdministrador.get('nombre')?.touched">No puede contener espacios</small>
+              </div>
+  
+              <div class="col-sm-6">
+                <label for="lastName" class="form-label">Apellido</label>
+                <input type="text" class="form-control" id="lastName" formControlName="apellido">
+                <small class="invalid" *ngIf="formaAdministrador.get('apellido')?.errors?.required && formaAdministrador.get('apellido')?.touched">El nombre es requerido</small>
+              </div>
+  
+              <div class="col-md-3">
+                <label for="cc-expiration" class="form-label">Edad</label>
+                <input type="number" class="form-control" id="edad" formControlName="edad">
+                <small class="invalid" *ngIf="formaAdministrador.get('edad')?.errors?.required  && formaAdministrador.get('edad')?.touched">La edad es requerida</small>
+                <small class="invalid" *ngIf="formaAdministrador.get('edad')?.errors?.min || formaAdministrador.get('edad')?.errors?.max  && formaAdministrador.get('edad')?.touched">La edad debe ser de entre 18 a 99 años</small>
+              </div>
+  
+              <div class="col-md-3">
+                <label for="cc-expiration" class="form-label">DNI</label>
+                <input type="text" class="form-control" id="cc-expiration" formControlName="dni">
+                <small class="invalid" *ngIf="formaAdministrador.get('dni')?.errors?.required && formaAdministrador.get('dni')?.touched">El dni es requerido</small>
+                <small class="invalid" *ngIf="formaAdministrador.get('dni')?.errors?.nonumerico && formaAdministrador.get('dni')?.touched">Por favor, ingrese números</small>
+              </div>
+  
+              <div class="col-6">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" placeholder="you@example.com" formControlName="email">
+                <small class="invalid" *ngIf="formaAdministrador.get('email')?.errors?.email && formaAdministrador.get('email')?.touched">Revise el email ingresado</small>
+              </div>
+  
+              <div class="col-6">
+                <label for="address" class="form-label">Password</label>
+                <input type="password" class="form-control" id="address" formControlName="password">
+                <small class="invalid" *ngIf="formaAdministrador.get('password')?.errors?.required  && formaAdministrador.get('password')?.touched">La edad es requerida</small>
+              </div>            
+            </div>
+  
+            <hr class="my-4">
+            
+            <button class="w-100 btn btn-primary btn-lg" type="submit" [disabled]="formaAdministrador.invalid">Registrar</button>
+          </form>
+      </div>
+    </main>
+  
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+      <p class="mb-1">&copy; 2017–2021 Company Name</p>
+      <ul class="list-inline">
+        <li class="list-inline-item"><a href="#">Privacy</a></li>
+        <li class="list-inline-item"><a href="#">Terms</a></li>
+        <li class="list-inline-item"><a href="#">Support</a></li>
+      </ul>
+    </footer>
+  </div>

@@ -13,6 +13,7 @@ import { environment } from 'src/environments/environment';
 import { UsuariosComponent } from './pages/usuarios/usuarios.component';
 import { TablaUsuariosComponent } from './pages/usuarios/components/tabla-usuarios/tabla-usuarios.component';
 import { NuevosUsuariosComponent } from './pages/usuarios/components/nuevos-usuarios/nuevos-usuarios.component';
+import { TablaMisTurnosComponent } from './pages/acceso/mis-turnos/tabla-mis-turnos/tabla-mis-turnos.component';
 
 @NgModule({
   declarations: [
