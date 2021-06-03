@@ -10,6 +10,7 @@ import { TurnosAdministradorComponent } from './turnos-administrador/turnos-admi
 
 const routes: Routes = [
   {path:'misturnos-especialista', component: MisTurnosEspecialistaComponent},
+  {path:'misturnos-paciente', component: MisTurnosPacienteComponent},
   {path:'solicitar', component: SolicitarTurnoComponent},
   {path:'miperfil', component: MiPerfilComponent},
   {path:'pacientes', component: PacientesComponent},
