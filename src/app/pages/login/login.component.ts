@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit {
   formLogin!:FormGroup;
   inCaptcha!:any;
   error!:boolean;
+  esperando!:boolean;
 
   constructor(private fb: FormBuilder,
               private auth:AuthService) { }
@@ -36,10 +37,13 @@ export class LoginComponent implements OnInit {
       'password': ['', Validators.required]
     });
     this.error = false;
-    this.inCaptcha = String(Math.round(Math.random()*10000));    
+    this.inCaptcha = String(Math.round(Math.random()*10000));   
+    this.esperando = false; 
   }
 
   enviarLogin() {
+    this.esperando = true;
+    this.spinner();
     let email = this.formLogin.get('email')?.value;
     let psw = this.formLogin.get('password')?.value;
     let inCaptchaIngresado = (<HTMLInputElement>document.getElementById('captchaIngresado'));
@@ -57,6 +61,8 @@ export class LoginComponent implements OnInit {
   }
 
   enviarLogin2() {
+    this.esperando = true;
+    this.spinner();
     let email = (<HTMLInputElement>document.getElementById('floatingInput')).value;
     let psw = (<HTMLInputElement>document.getElementById('floatingPassword')).value;
 
@@ -64,5 +70,12 @@ export class LoginComponent implements OnInit {
     this.auth.login(email, psw);
   }
 
-  
+  spinner(){
+    let a = this.esperando
+    setTimeout(() => {
+      a = false;
+    }, 15000);
+
+    this.esperando = a
+  }
 }

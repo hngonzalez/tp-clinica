@@ -37,7 +37,7 @@ export class MiPerfilComponent implements OnInit {
               private auth:AuthService,
               private storageImg:StorageIMGService) { 
     this.disponibilidadHoraria = [
-      '8:00','9:00','10:00','11:00'
+      '8:00','9:00','10:00','11:00','12:00','13:00','14:00','15:00'
     ]
     this.diasMes = [
       '1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31'
