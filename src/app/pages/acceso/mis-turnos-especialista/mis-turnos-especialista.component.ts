@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-mis-turnos-especialista',
@@ -9,14 +10,15 @@ export class MisTurnosEspecialistaComponent implements OnInit {
   filtroMisTurnos!:any;
   filtro!:any;
   
-  constructor() { }
+  constructor(private router:Router) { }
 
   ngOnInit(): void {
   }
 
   buscar() {
-    this.filtro = (<HTMLInputElement>document.getElementById('search')).value
-    this.filtroMisTurnos = this.filtro;
+    
+    //this.filtro = (<HTMLInputElement>document.getElementById('search')).value
+    //this.filtroMisTurnos = this.filtro;
   }
 
 }

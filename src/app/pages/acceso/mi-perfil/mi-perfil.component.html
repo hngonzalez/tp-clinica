@@ -6,7 +6,7 @@
             <div class="account-settings">
                 <div class="user-profile">
                     <div class="user-avatar">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Maxwell Admin">
+                        <img src="{{dataUserPhotoProfile}}" alt="Maxwell Admin"><br>
                     </div>
                     <h5 class="user-name">{{dataUserNombre}} {{dataUserApellido}}</h5>
                     <h6 class="user-email">{{dataUserMail}}</h6>
@@ -27,6 +27,56 @@
     </div>
     <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
     <div class="card h-100">
+        <div class="card-body">
+            <div class="row gutters">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <h6 class="mb-2 text-primary">Datos Personales</h6>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label for="fullName">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" placeholder="" value="{{dataUserNombre}}">
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label for="fullName">Apellido</label>
+                        <input type="text" class="form-control" id="apellido" placeholder="" value="{{dataUserApellido}}">
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="form-group">
+                        <br>
+                        <label for="eMail">Email</label>
+                        <br>
+                        <small>{{dataUserMail}}</small> 
+                    </div>
+                </div>
+                <div class="row gutters">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="text-right">
+                            <br>
+                            <button type="button" id="submit" name="submit" (click)="actualizarInfoUsuario()" class="btn btn-primary">Update</button>
+                            <br><br>
+                            <small class="valid" *ngIf="graboDatos">Cambios grabados!</small>
+                        </div>
+                    </div>
+                </div>
+                <br><br><br><br><br>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="form-group">
+                        <div class="mb-3">
+                            <label for="formFileSm" class="form-label">Foto de perfil</label>
+                            <input (change)="onUpload($event)" class="form-control form-control-sm" id="formFileSm" type="file">
+                            <small class="valid" *ngIf="graboPhotoProfile">Foto de perfil subida!</small>
+                        </div>
+                    </div>
+                    <br><br>
+                    <button *ngIf="dataUserTipo == 'Administrador'" class="btn btn-outline-warning" (click)="generarXls()"> Generar excel de Usuarios</button>
+
+                </div>
+            </div>
+        </div>
         <div *ngIf="dataUserTipo == 'Especialista'" class="card-body">
             <!--div class="row gutters">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -69,8 +119,52 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="zIp">Fecha disponible</label>
-                        <input class="form-control" type="date" value="2011-08-19" id="dateInput">
+                        <label>Día</label>
+                        <!--input class="form-control" type="date" value="2011-08-19" id="dateInput"-->
+                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                            <div *ngFor="let dia of diasMes; let i = index">
+                                <input type="radio" class="btn-check" name="btnradioDia" id="btnradioDia{{dia}}" value="{{dia}}" autocomplete="off" checked>
+                                <label class="btn btn-outline-dark" for="btnradioDia{{dia}}">{{dia}}</label>
+                            </div>
+                        </div>
+                        <label>Mes</label>
+                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                            <input type="radio" class="btn-check" name="btnradioMes" id="btnradioMes1" value="1" autocomplete="off" checked>
+                            <label class="btn btn-outline-dark" for="btnradioMes1">1</label>
+                          
+                            <input type="radio" class="btn-check" name="btnradioMes" id="btnradioMes2" value="2" autocomplete="off">
+                            <label class="btn btn-outline-dark" for="btnradioMes2">2</label>
+                          
+                            <input type="radio" class="btn-check" name="btnradioMes" id="btnradioMes3" value="3" autocomplete="off">
+                            <label class="btn btn-outline-dark" for="btnradioMes3">3</label>
+
+                            <input type="radio" class="btn-check" name="btnradioMes" id="btnradioMes4" value="4" autocomplete="off">
+                            <label class="btn btn-outline-dark" for="btnradioMes4">4</label>
+
+                            <input type="radio" class="btn-check" name="btnradioMes" id="btnradioMes5" value="5" autocomplete="off">
+                            <label class="btn btn-outline-dark" for="btnradioMes5">5</label>
+                            
+                            <input type="radio" class="btn-check" name="btnradioMes" id="btnradioMes6" value="6" autocomplete="off">
+                            <label class="btn btn-outline-dark" for="btnradioMes6">6</label>
+                            
+                            <input type="radio" class="btn-check" name="btnradioMes" id="btnradioMes7" value="7" autocomplete="off">
+                            <label class="btn btn-outline-dark" for="btnradioMes7">7</label>
+
+                            <input type="radio" class="btn-check" name="btnradioMes" id="btnradioMes8" value="8" autocomplete="off">
+                            <label class="btn btn-outline-dark" for="btnradioMes8">8</label>
+
+                            <input type="radio" class="btn-check" name="btnradioMes" id="btnradioMes9" value="9" autocomplete="off">
+                            <label class="btn btn-outline-dark" for="btnradioMes9">9</label>
+
+                            <input type="radio" class="btn-check" name="btnradioMes" id="btnradioMes10" value="10" autocomplete="off">
+                            <label class="btn btn-outline-dark" for="btnradioMes10">10</label>
+
+                            <input type="radio" class="btn-check" name="btnradioMes" id="btnradioMes11" value="11" autocomplete="off">
+                            <label class="btn btn-outline-dark" for="btnradioMes11">11</label>
+
+                            <input type="radio" class="btn-check" name="btnradioMes" id="btnradioMes12" value="12" autocomplete="off">
+                            <label class="btn btn-outline-dark" for="btnradioMes12">12</label>
+                        </div>
                     </div>
                     <br>
                     <div class="form-group">

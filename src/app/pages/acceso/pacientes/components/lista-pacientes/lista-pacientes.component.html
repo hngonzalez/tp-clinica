@@ -1,0 +1,84 @@
+<div class="d-grid gap-2">
+    <div class="row">
+      
+      <div *ngFor="let pacienteUnico of listadoPacientesUnicos; let iPacUnicos = index">
+        <p>
+          <a style="width: 100%;" class="btn btn-warning" data-bs-toggle="collapse" href="#collapseExample{{iPacUnicos}}" (click)="cargoTurnosPaciente(pacienteUnico.idDocPaciente)" role="button" aria-expanded="false" aria-controls="collapseExample">
+            {{pacienteUnico.pacienteApellido}} {{pacienteUnico.pacienteNombre}}
+          </a>
+        </p>
+        <div class="collapse" id="collapseExample{{iPacUnicos}}">
+          <div class="card card-body">
+            <a *ngFor="let turnoPacienteUnico of listaTurnosPacienteUnico; let iTurnoPacUnico = index" class="btn btn-light" 
+              (click)="cargoDatosPaciente(turnoPacienteUnico.idTurno,turnoPacienteUnico.paciente)" data-bs-toggle="modal" data-bs-target="#modalResena" role="button" aria-expanded="false" aria-controls="collapseExample">
+              <b>TURNO</b>: {{turnoPacienteUnico.idTurno}} - <b>Fecha</b>: {{turnoPacienteUnico.fecha}} ({{turnoPacienteUnico.horario}})
+              <br>
+            </a>
+          </div>
+          <br>
+        </div>
+      </div>
+
+
+
+
+
+
+    <!--p *ngFor="let paciente of listadoPacientes; let indexPacientes = index">
+        <a class="btn btn-warning btn-lg" data-bs-toggle="collapse" href="#detallePaciente" role="button" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">
+            <img src="../../../../assets/img/a.png"  alt=""> 
+        </a>
+    </p>
+    <div class="row">
+        <div class="col">
+            <div id="" class="collapse multi-collapse" id="multiCollapseExample1">
+                <div class="card card-body">
+                
+                </div>
+            </div>
+        </div>
+    </div-->
+</div>
+
+<div class="modal fade" id="modalResena" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+     
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">Historia clínica</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <form [formGroup]="formHistoriaClinica" (ngSubmit)="enviarHistoriaClinica()">
+            <div class="modal-body">
+                <div class="row"> 
+                  <div class="col-md-6">
+                    <label for="cc-number" class="form-label">Altura</label>
+                    <input type="text" class="form-control" id="cc-number" formControlName="altura">
+                    <small class="invalid" *ngIf="formHistoriaClinica.get('altura')?.errors?.required && formHistoriaClinica.get('altura')?.touched">La altura es requerida</small>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="cc-number" class="form-label">Peso</label>
+                    <input type="text" class="form-control" id="cc-number" formControlName="peso">
+                    <small class="invalid" *ngIf="formHistoriaClinica.get('peso')?.errors?.required && formHistoriaClinica.get('peso')?.touched">El peso es requerido</small>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="cc-number" class="form-label">Temperatura</label>
+                    <input type="text" class="form-control" id="cc-number" formControlName="temperatura">
+                    <small class="invalid" *ngIf="formHistoriaClinica.get('temperatura')?.errors?.required && formHistoriaClinica.get('temperatura')?.touched">La temperatura es requerida</small>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="cc-number" class="form-label">Presión</label>
+                    <input type="text" class="form-control" id="cc-number" formControlName="presion">
+                    <small class="invalid" *ngIf="formHistoriaClinica.get('presion')?.errors?.required && formHistoriaClinica.get('presion')?.touched">La presion es requerida</small>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-success" [disabled]="formHistoriaClinica.invalid">Grabar</button>
+              </div>
+          </form>
+        </div>
+      
+    </div>
+  </div>

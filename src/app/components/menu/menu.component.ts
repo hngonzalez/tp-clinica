@@ -11,12 +11,16 @@ export class MenuComponent implements OnInit {
   user:any;
   esAdmin:string = 'N';
   esPaciente:string = 'N';
+
+  /* Para datos del usuario */
+  dataUserPhotoProfile!:string;
   
   constructor(private router:Router,
               private auth:AuthService) {
     console.log(localStorage);
     this.esAdmin = String(localStorage.getItem('tipo')) == 'A' ? 'S' : 'N';
     this.esPaciente = String(localStorage.getItem('tipo')) == 'P' ? 'S' : 'N';
+    this.dataUserPhotoProfile = String(localStorage.getItem('photoURL'));
   }
 
   ngOnInit(): void {

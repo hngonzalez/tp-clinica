@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { TurnosService } from 'src/app/services/turnos.service';
 
@@ -10,15 +11,23 @@ import { TurnosService } from 'src/app/services/turnos.service';
 export class SolicitarTurnoComponent implements OnInit {
   listaEspecialidades!:any;
   listaEspecialistas!:any;
+  listaTurnosRapidos!:any;
   listoSelects!:boolean;
   datito1!:any;
   datito2!:any;
   datito3!:any;
+  clickeado:boolean;
+  espeElegido!:string;
+  espeElegida!:string;
   
   constructor(private auth:AuthService,
-              private servTurnos:TurnosService) { 
+              private servTurnos:TurnosService,
+              private router:Router) { 
     this.listaEspecialistas = "";
     this.listoSelects = false;
+    this.clickeado = false;
+    this.espeElegido = "";
+    this.espeElegida = "";
   }
 
   ngOnInit(): void {
@@ -37,4 +46,19 @@ export class SolicitarTurnoComponent implements OnInit {
     this.datito3 = this.servTurnos.consultaTurnos(this.datito1,this.datito2);
   }
 
-}
+  habilito(especialidad:string) {
+    this.clickeado = true;
+    this.espeElegido = especialidad;
+    this.espeElegida = especialidad;
+
+    this.listaTurnosRapidos = this.servTurnos.consultaTurnosRapidos(especialidad);
+    this.listaEspecialistas = this.servTurnos.consultaEspecialistas(especialidad);
+  }
+  
+  turnoRapido(fecha:string,hora:string, especialidad:string, especialista:string, index:number) {
+    //console.log(especialidad)
+    this.servTurnos.tomarTurno(fecha, hora, especialidad, especialista);
+    (<HTMLElement>document.getElementById('btnConfirmarTurnoRapido'+index)).className = 'btn btn-light disabled';
+    (<HTMLElement>document.getElementById('btnConfirmarTurnoRapido'+index)).textContent = 'Aceptado';
+  }
+} 

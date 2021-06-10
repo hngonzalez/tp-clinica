@@ -1,15 +1,82 @@
 <div class="container">
-    <select id="selEspecialidad" class="form-select" (change)="buscoEspecialista()" aria-label="Default select example">
-        <option selected>Seleccione una especialidad</option>
-        <option *ngFor="let espe of listaEspecialidades; let i = index" value="{{espe.especialidad}}" [attr.data-index]="i">{{espe.especialidad}}</option>
-    </select>
+  <div class="row">
+    <div *ngFor="let espe of listaEspecialidades; let i = index" class="d-grid gap-2">
+      <p>
+          <a class="btn btn-warning btn-lg" data-bs-toggle="collapse" (click)="habilito(espe.especialidad)" href="#{{espe.especialidad}}" role="button" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">
+              <img src="../../../../assets/img/{{espe.especialidad}}.png"  alt=""> 
+          </a>
+      </p>
+      <div class="row">
+        <div class="col">
+          <div id="{{espe.especialidad}}" class="collapse multi-collapse" id="multiCollapseExample1">
+            <div class="card card-body">
+              <h4>Turno rápidos para {{espe.especialidad}}</h4>
+              <a class="btn btn-light btn-lg" data-bs-toggle="collapse" href="#collapseExample{{ind}}" *ngFor="let espe of listaTurnosRapidos; let ind = index" role="button" aria-expanded="false" aria-controls="collapseExample">
+                Hora: {{espe.horario}} Fecha: {{espe.fecha}}
+                <div class="collapse" id="collapseExample{{ind}}">
+                  <div class="card card-body">
+                    ¿Desea confirmar este turno?
+                    <div class="col">
+                      <button type="button" id="btnConfirmarTurnoRapido{{ind}}" name="btnConfirmarTurnoRapido{{ind}}" (click)="turnoRapido(espe.fecha, espe.horario, espeElegida, espe.idEspe, ind)" class="btn btn-success">Confirmar</button>
+                    </div>
+                  </div>
+                </div>
+                <br>
+              </a>
+              <!--button id="btnEspecialidad" data-bs-toggle="collapse" href="#collapseExample" type="button" class="btn btn-light btn-lg">Hora: {{espe.horario}} Fecha: {{espe.fecha}} 
+                <div class="collapse" id="collapseExample">
+                  <div class="card card-body">
+                    ¿Desea tomar este turno?
+                  </div>
+                </div>  
+              </button-->            
+            </div>
+          </div>
+          <div id="{{espe.especialidad}}" class="collapse multi-collapse" id="multiCollapseExample2">
+            <div class="card card-body">
+              <h4>Turnos por especialista</h4>
+              <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                <div *ngFor="let espe of listaEspecialistas; let indexEspecialistas = index" class="col">
+                  <div class="card shadow-sm">
+                    <img src="{{espe.profileImg}}" class="card-img-top" style="width: 100%;height: 14rem;" alt="...">
+                    <div class="card-body">
+                      <p class="card-text">{{espe.especialista}}</p>
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                          <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                        </div>
+                        <small class="text-muted">9 mins</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>  
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--div class="row row-cols-2">
+        <div class="col">
+            <select id="selEspecialidad" class="form-select" (change)="buscoEspecialista()" aria-label="Default select example">
+                <option selected>Seleccione una especialidad</option>
+                <option *ngFor="let espe of listaEspecialidades; let i = index" value="{{espe.especialidad}}" [attr.data-index]="i">{{espe.especialidad}}</option>
+            </select>
+        </div>
+        <div class="col">
+            <select id="selEspecialista" class="form-select" (change)="habilitoAlgo()" aria-label="Default select example">
+                <option selected>Seleccione un especialista</option>
+                <option  *ngFor="let espe of listaEspecialistas; let i = index" value="{{espe.id}}" [attr.data-index]="i">{{espe.especialidad}}</option>
+            </select>
+        </div>
+    </div>
+
     <br>
-    <select id="selEspecialista" class="form-select" (change)="habilitoAlgo()" aria-label="Default select example">
-        <option selected>Seleccione un especialista</option>
-        <option  *ngFor="let espe of listaEspecialistas; let i = index" value="{{espe.id}}" [attr.data-index]="i">{{espe.especialidad}}</option>
-    </select>
+    
 
     <div *ngIf="listoSelects" class="horarios">
         <app-tabla-horarios [listoSelects]="listoSelects" [datito1]="datito1" [datito2]="datito2" [datito3]="datito3"></app-tabla-horarios>
-    </div>
+    </div-->
 </div>

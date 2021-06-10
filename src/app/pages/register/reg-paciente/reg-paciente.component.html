@@ -40,6 +40,12 @@
                 <input type="text" class="form-control" id="cc-expiration" formControlName="os">
                 <small class="invalid" *ngIf="formaPaciente.get('os')?.errors?.required && formaPaciente.get('os')?.touched">La O.S. es requerida</small>
               </div>
+
+              <div class="col-md-3">
+                <label for="cc-expiration" class="form-label">Imágen de Perfil</label>
+                <input class="form-control form-control-sm" id="formFileSm" type="file">
+                <small class="invalid" *ngIf="formaPaciente.get('os')?.errors?.required && formaPaciente.get('os')?.touched">La O.S. es requerida</small>
+              </div>
   
               <div class="col-6">
                 <label for="email" class="form-label">Email</label>
@@ -56,6 +62,19 @@
                   Please enter your shipping address.
                 </div>
               </div>            
+
+              <!--div class="col-3">
+                <label for="address" class="form-label">Captcha</label>
+                <input type="text" class="form-control" id="captchaGenerado">
+                <div class="invalid-feedback">
+                  Please enter your shipping address.
+                </div>
+              </div>
+              <div class="col-3">
+                <label for="address" class="form-label"></label>
+                <input type="text" class="form-control" id="captchaIngresado" formControlName="captchaIngresado">
+                <small class="invalid" *ngIf="!formaPaciente.get('captchaIngresado')?.errors?.esIgual && formaPaciente.get('captchaIngresado')?.touched">Captcha incorrecto</small>
+              </div-->     
             </div>
   
             <hr class="my-4">

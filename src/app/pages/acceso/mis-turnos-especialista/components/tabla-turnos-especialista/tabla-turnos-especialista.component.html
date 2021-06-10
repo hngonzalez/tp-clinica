@@ -1,31 +1,99 @@
+<div class="input-group">
+  <input  id="search" (change)="buscar()" type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+          aria-describedby="search-addon" />
+  <select id="selFiltro" class="form-select" aria-label="Default select example">
+    <option selected>Open this select menu</option>
+    <option value="estado">Estado</option>
+    <option value="pacienteApellido">Apellido</option>
+    <option value="pacienteNombre">Nombre</option>
+    <option value="especialidad">Especialidad</option>
+  </select>
+</div>
 <table class="table table-hover">
+  
     <thead>
       <tr>
         <th scope="col">Estado Actual</th>
-        <th scope="col">Especialista</th>
+        <th scope="col">Apellido</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Especialidad</th>
         <th scope="col">Fecha</th>
         <th scope="col">Hora</th>
         <th scope="col">Acciones</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let turnos of listaMisTurnos">
+      <tr *ngFor="let turnos of listaMisTurnos; let turnosIndex = index">
         <td>{{turnos.estado}}</td>
-        <td>{{turnos.paciente}}</td>
+        <td>{{turnos.pacienteApellido}}</td>
+        <td>{{turnos.pacienteNombre}}</td>
+        <td>{{turnos.especialidad}}</td>
         <td>{{turnos.fecha}}</td>
         <td>{{turnos.horario}}</td>
         <td>
-          <button
-                  (click)="modificarTurno('Aceptado',turnos.paciente,turnos.especialista,turnos.fecha,turnos.horario)" class="btn btn-success" type="submit">Aceptar</button>
-          <button 
-                  (click)="modificarTurno('Rechazado',turnos.paciente,turnos.especialista,turnos.fecha,turnos.horario)" class="btn btn-danger" type="submit">Rechazar</button>
-          <button class="btn btn-warning" type="submit">Reseña</button>
-
-          <button 
-                  (click)="modificarTurno('Finalizado',turnos.paciente,turnos.especialista,turnos.fecha,turnos.horario)" class="btn btn-outline-info" type="submit">Finalizar</button>
-          <button 
-                  (click)="modificarTurno('Cancelado',turnos.paciente,turnos.especialista,turnos.fecha,turnos.horario)" class="btn btn-outline-danger" type="submit">Cancelar</button>
+          <button *ngIf="turnos.estado != 'Realizado'"
+                  (click)="modificarTurno('Aceptado', turnos.paciente,turnos.especialista,turnos.fecha,turnos.horario, turnos.idTurno, turnosIndex)" class="btn btn-success" type="submit">Aceptar</button>
+          <button *ngIf="turnos.estado != 'Aceptado' && turnos.estado != 'Realizado' && turnos.estado != 'Cancelado'"
+                  (click)="modificarTurno('Rechazado', turnos.paciente,turnos.especialista,turnos.fecha,turnos.horario, turnos.idTurno, turnosIndex)" class="btn btn-danger" type="submit">Rechazar</button>
+          <button *ngIf="(turnos.comentarios && turnos.comentarios != '' && turnos.comentarios != undefined)"
+                  (click)="verComentarios(turnos.comentarios)" data-bs-toggle="modal" data-bs-target="#modalResena" class="btn btn-warning" type="submit">Reseña</button>
+          <button id="btnFinalizar{{turnosIndex}}" *ngIf="turnos.estado == 'Aceptado'"
+                  (click)="modificarTurno('Realizado', turnos.paciente,turnos.especialista,turnos.fecha,turnos.horario, turnos.idTurno, turnosIndex)" data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn btn-outline-info" type="submit">Finalizar</button>
+          <button *ngIf="turnos.estado != 'Aceptado' && turnos.estado != 'Realizado' && turnos.estado != 'Rechazado'"
+                  (click)="modificarTurno('Cancelado', turnos.paciente,turnos.especialista,turnos.fecha,turnos.horario, turnos.idTurno, turnosIndex)" class="btn btn-outline-danger" type="submit">Cancelar</button>
         </td>
       </tr>
     </tbody>
 </table>
+<!-- Scrollable modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <form [formGroup]="formHistoriaClinica" (ngSubmit)="grabarComentariosTurno()">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Comentarios del turno</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row"> 
+            <div class="mb-3">
+              <label for="exampleFormControlTextarea1" class="form-label">Comentarios</label>
+              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" formControlName="comentarios"></textarea>
+              <small class="invalid" *ngIf="formHistoriaClinica.get('comentarios')?.errors?.required && formHistoriaClinica.get('comentarios')?.touched">Los comentarios son requeridos</small>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cerrar</button>
+          <button *ngIf="!historiaGrabada" type="submit" class="btn btn-success" [disabled]="formHistoriaClinica.invalid">Finalizar</button>
+          <small class="valid" *ngIf="historiaGrabada">El turno fue finalizado!</small>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal fade" id="modalResena" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+   
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Comentarios del turno:</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row"> 
+            <div class="mb-3">
+              <p>
+                {{comentariosTurno}}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    
+  </div>
+</div>

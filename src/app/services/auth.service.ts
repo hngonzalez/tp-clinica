@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ElementRef, ViewChild } from '@angular/core';
 import { Especialista } from '../models/especialista';
 import { Paciente } from '../models/paciente';
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
@@ -6,6 +6,11 @@ import { AngularFireAuth } from "@angular/fire/auth";
 import firebase from "firebase/app";
 import { Router } from '@angular/router';
 import { Administrador } from '../models/administrador';
+import { Observable } from 'rxjs';
+import { element } from 'protractor';
+import { StorageIMGService } from './storage-img.service';
+import { FormGroup } from '@angular/forms';
+import { query } from '@angular/animations';
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +41,7 @@ export class AuthService {
       .then(userCredential => {
         if(userCredential) {
           var idDoc = userCredential.user?.uid;
-          
+
           this.setLocalStorageData(userCredential, idDoc!);
           
           localStorage.setItem('online','true');
@@ -85,8 +90,8 @@ export class AuthService {
   /* -------------------------------------
     SECCION REGISTRO
   ------------------------------------- */ 
-  registrar(nuevoUsuario:Paciente | Especialista | Administrador, dato:string, nuevaEspecialidad:string) {
-
+  registrar(nuevoUsuario:Paciente | Especialista | Administrador, dato:string, nuevaEspecialidad:string, file?:File, storage?:StorageIMGService) {
+    //console.log(file)
     this.dato = dato;
     this.nuevaEspecialidad = nuevaEspecialidad;
 
@@ -104,6 +109,9 @@ export class AuthService {
           .then(()=> {
             //console.log('cambio pag');
             //this.InsertoEncuesta(userCredential);
+            if (file && storage) {
+              storage?.upload2(file, <string>userCredential.user?.uid);
+            }
             this.router.navigate(['register/regpaok']);
             this.afAuth.signOut();
           })
@@ -137,7 +145,8 @@ export class AuthService {
       ...nusr,
       habilitado: 'N',
       administrador: this.dato == 'A' ? 'S' : 'N',
-      tipo: this.dato
+      tipo: this.dato,
+      profileImg: ''
     });
   }
  
@@ -154,7 +163,7 @@ export class AuthService {
       querySnapshot.forEach((userDoc) => {
   
           //userDoc contains all metadata of Firestore object, such as reference and id
-          console.log(userDoc.data())
+          //console.log(userDoc.data())
           //If you want to get doc data
           var userDocData = userDoc.data()
           //console.dir(userDocData)
@@ -169,6 +178,35 @@ export class AuthService {
               administrador: userDoc.data().administrador,
             })  
           }
+      })
+    })
+
+    return listita;
+  }
+
+  loteUsers() {
+    
+    const collection = this.referenciaAlaColeccion.get();
+    let listita = new Array();
+    collection.subscribe((querySnapshot) => {
+
+      //querySnapshot is "iteratable" itself
+      querySnapshot.forEach((userDoc) => {
+  
+          //userDoc contains all metadata of Firestore object, such as reference and id
+          //console.log(userDoc.data())
+          //If you want to get doc data
+          var userDocData = userDoc.data()
+          //console.dir(userDocData)
+
+          listita.push({
+            nombre: userDoc.data().nombre,
+            apellido: userDoc.data().apellido,
+            mail: userDoc.data().mail,
+            tipo: userDoc.data().tipo,
+            habilitado: userDoc.data().habilitado,
+            administrador: userDoc.data().administrador,
+          })  
       })
     })
 
@@ -250,4 +288,106 @@ export class AuthService {
     
   }
   
+  actualizarImgProfile(urlImage:Observable<string>) {
+    let a = this.afAuth.credential;
+    let idDoc = localStorage.getItem('idDoc')
+    let refUsuarios = this.db.collection('users');
+    let collectionUsers = refUsuarios.get();
+
+    this.afAuth.currentUser.then(element => {
+      console.log(element)
+      element?.updateProfile({
+        photoURL: String(urlImage)
+      })
+      .then(function() { 
+        //console.log(urlImage) 
+        localStorage.setItem('photoURL', String(urlImage));
+      })
+      .catch(function(error) { console.log(error) });
+    })
+    
+    this.db.doc(`users/${idDoc}`).update({
+      profileImg: String(urlImage)
+    })
+  }
+  
+  actualizarDatosPerfil(nombre:string, apellido:string) {
+    let a = this.afAuth.credential;
+    let idDoc = localStorage.getItem('idDoc')
+
+    this.db.doc(`users/${idDoc}`).update({
+      nombre: nombre,
+      apellido: apellido
+    });
+    
+    var docRef = this.referenciaAlaColeccion.doc(`${idDoc}`);
+    docRef.get().subscribe( usersData => { 
+      //console.log(usersData.data())
+      /* Seteo el localStorage */
+      localStorage.setItem('nombre', String(usersData.data().nombre));
+      localStorage.setItem('apellido', String(usersData.data().apellido));
+    });
+    
+  }
+  
+  graboHistoriaClinica(fb:FormGroup, paciente:string, idTurno:string) {
+    let refHistoriasClinicas = this.db.collection('historiasClinicas');
+    let idDoc = localStorage.getItem('idDoc');
+    /* Datos de la historia clinica */
+    let fbAltura = fb.get('altura')?.value;
+    let fbPeso = fb.get('peso')?.value;
+    let fbTemperatura = fb.get('temperatura')?.value;
+    let fbPresion = fb.get('presion')?.value;
+
+    let documentoGrabado;
+
+    refHistoriasClinicas.add({
+      idTurno: idTurno,
+      idPaciente: paciente,
+      idEspecialista: idDoc,
+      fechaCreacion: new Date(),
+      altura: fbAltura,
+      peso: fbPeso,
+      temperatura: fbTemperatura,
+      presion: fbPresion
+    })
+
+    documentoGrabado = true;
+
+    return documentoGrabado;
+  }
+
+  graboComentariosTurno(fb:FormGroup, paciente:string, idTurno:string) {
+    let refTurnos = this.db.collection('turnos');
+    let fbComentarios = fb.get('comentarios')?.value;
+    let documentoGrabado;
+
+    refTurnos.doc(`${idTurno}`).update({
+      comentarios: fbComentarios
+    })
+
+    documentoGrabado = true;
+
+    return documentoGrabado;
+  }
+
+  getComentariosTurno(idTurno:string) {
+    let refComentariosTurno = this.db.collection('comentariosTurno');
+    let idDoc = localStorage.getItem('idDoc');
+    let comentarios = "";
+
+    refComentariosTurno.get().subscribe( (querySnapshot) => {
+      querySnapshot.forEach(comentar2ios => {
+        if (comentar2ios.get('idTurno') == idTurno) {
+          comentarios = comentar2ios.get('comentarios')
+          console.log(comentarios)
+        }
+      })
+    })
+    
+    return comentarios;
+  }
+
+
+
 }

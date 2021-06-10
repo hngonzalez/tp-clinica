@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Paciente } from 'src/app/models/paciente';
 import { AuthService } from 'src/app/services/auth.service';
+import { StorageIMGService } from 'src/app/services/storage-img.service';
 
 @Component({
   selector: 'app-reg-paciente',
@@ -11,9 +12,11 @@ import { AuthService } from 'src/app/services/auth.service';
 export class RegPacienteComponent implements OnInit {
   formaPaciente!:FormGroup;
   imgPaciente:string;
+  inCaptcha!:any;
 
   constructor(private fb:FormBuilder,
-              private auth:AuthService) {
+              private auth:AuthService,
+              private storage:StorageIMGService) {
     this.formaPaciente = this.fb.group({
       'nombre': ['', Validators.required],
       'apellido': ['', Validators.required],
@@ -22,11 +25,14 @@ export class RegPacienteComponent implements OnInit {
       'os': ['', Validators.required],
       'email': ['', Validators.required],
       'password': ['', Validators.required]
+      //'captchaIngresado': ['', [Validators.required, this.validateCaptcha]]
     });
     this.imgPaciente = '../../../../assets/img/enfermero.svg';
+    this.inCaptcha = "";
   }
 
   ngOnInit(): void {
+    this.generarCaptcha();
   }
 
   private onlyNumbers(control:AbstractControl):null | object{
@@ -49,12 +55,23 @@ export class RegPacienteComponent implements OnInit {
 
   enviarRegistro(){
     let nuevoUsuario = new Paciente;
+    let file = (<HTMLInputElement>document.getElementById('formFileSm'))
+    //let archivo = file.files?.item(0);
+    //console.log(archivo)
+
 
     nuevoUsuario.nombre = this.formaPaciente.get('nombre')?.value;
     nuevoUsuario.apellido = this.formaPaciente.get('apellido')?.value;
     nuevoUsuario.mail = this.formaPaciente.get('email')?.value;
     nuevoUsuario.password = this.formaPaciente.get('password')?.value;
+    
+    
+    this.auth.registrar(nuevoUsuario, 'P','N', <File>file.files?.item(0), this.storage);
+  }
 
-    this.auth.registrar(nuevoUsuario, 'P','N');
+  generarCaptcha() {
+    //this.inCaptcha = (<HTMLSelectElement>document.getElementById('captchaGenerado'));
+    //this.inCaptcha.value = String(Math.round(Math.random()*10000));
+    //console.log(this.inCaptcha)
   }
 }

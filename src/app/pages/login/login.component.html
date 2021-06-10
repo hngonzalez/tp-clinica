@@ -1,4 +1,4 @@
-<main class="form-signin">
+<main @enterState class="form-signin">
   <form [formGroup]="formLogin" (ngSubmit)="enviarLogin()">
     <img class="mb-4" src="../../../favicon.ico" alt="" width="72" height="57">
     <h1 class="h3 mb-3 fw-normal">Por favor, complete</h1>
@@ -16,10 +16,18 @@
       <small class="invalid" *ngIf="formLogin.get('password')?.errors?.required && formLogin.get('password')?.touched">La contraseña es requerida</small>
     </div>
 
+    <small>Captcha {{inCaptcha}}</small>
+    <input type="text" id="captchaIngresado" name="captchaIngresado" class="form-control">
+    <small class="invalid" *ngIf="error">Captcha incorrecto</small>
+    <br>
+    
     <div class="checkbox mb-3">
-      <button class="w-100 btn btn-lg btn-primary" type="submit" [disabled]="formLogin.invalid">Login</button>
+      <button class="w-100 btn btn-lg btn-primary" id="loginBtn" name="loginBtn" type="submit" [disabled]="formLogin.invalid">Login</button>
     </div>
-    <button class="w-100 btn btn-md btn-primary" (click)='enviarLogin2()'>Acceso Rápido</button>
+    <div class="checkbox mb-3">
+      <button class="w-100 btn btn-lg btn-primary" (click)="enviarLogin2()" id="loginBtnFastAccess" name="loginBtnFastAccess" type="submit" hidden>Acceso Rápido</button>
+    </div>
+    <!--button class="w-100 btn btn-md btn-primary" (click)='enviarLogin2()'>Acceso Rápido</button-->
     <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
   </form>
 </main>

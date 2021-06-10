@@ -63,3 +63,7 @@ body {
 .valid {
     color: rgb(25, 175, 25);
 }
+
+.colDias {
+    width: 20%;
+}

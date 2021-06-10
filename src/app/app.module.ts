@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { AngularFireStorage } from '@angular/fire/storage';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,6 +15,9 @@ import { UsuariosComponent } from './pages/usuarios/usuarios.component';
 import { TablaUsuariosComponent } from './pages/usuarios/components/tabla-usuarios/tabla-usuarios.component';
 import { NuevosUsuariosComponent } from './pages/usuarios/components/nuevos-usuarios/nuevos-usuarios.component';
 import { TablaMisTurnosComponent } from './pages/acceso/mis-turnos/tabla-mis-turnos/tabla-mis-turnos.component';
+import { AccesorapidoComponent } from './components/accesorapido/accesorapido.component';
+import { ComponentsComponent } from './pÃages/acceso/pacientes/components/components.component';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -23,14 +27,17 @@ import { TablaMisTurnosComponent } from './pages/acceso/mis-turnos/tabla-mis-tur
     MenuComponent,
     UsuariosComponent,
     TablaUsuariosComponent,
-    NuevosUsuariosComponent
+    NuevosUsuariosComponent,
+    AccesorapidoComponent,
+    ComponentsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

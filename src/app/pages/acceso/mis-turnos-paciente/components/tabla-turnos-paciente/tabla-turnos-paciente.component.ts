@@ -9,6 +9,7 @@ import { TurnosService } from 'src/app/services/turnos.service';
 export class TablaTurnosPacienteComponent implements OnInit {
   @Input() filtroMisTurnos!:any;
   listaMisTurnos!:any;
+  comentariosTurno!:string;
 
   constructor(private turnosService:TurnosService) { }
 
@@ -19,5 +20,9 @@ export class TablaTurnosPacienteComponent implements OnInit {
 
   misTurnos() {
     this.listaMisTurnos = this.turnosService.misTurnos();
+  }
+
+  verComentarios(comentarios:string) {
+    this.comentariosTurno = comentarios;
   }
 }

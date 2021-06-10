@@ -3,3 +3,11 @@ button {
     font-size: small;
     margin: 5px;
 }
+
+.invalid {
+    color: red;
+}
+
+.valid {
+    color: green;
+}
