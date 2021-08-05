@@ -1,27 +1,22 @@
-# TPFinal
+# Login
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.8.
+Registro y Login a la plataforma
 
-## Development server
+![alt text](https://i.imgur.com/66HCYrj.png)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
+## Menu Usuarios en el sitio ADMIN
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+![alt text](https://i.imgur.com/JNG3Y9e.png)
 
-## Build
+## Gráficas
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+![alt text](https://i.imgur.com/41woPgC.png)
 
-## Running unit tests
+## Solicite su turno rápido en 2 clicks
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+![alt text](https://i.imgur.com/hmesKGB.png)
 
-## Running end-to-end tests
+## Administre sus turnos
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+![alt text](https://i.imgur.com/i4WoZHx.png)
