@@ -71,6 +71,21 @@
                     <input type="text" class="form-control" id="cc-number" formControlName="presion">
                     <small class="invalid" *ngIf="formHistoriaClinica.get('presion')?.errors?.required && formHistoriaClinica.get('presion')?.touched">La presion es requerida</small>
                   </div>
+                  <div class="col-md-6">
+                    <label for="cc-number" class="form-label">Asmático</label>
+                    <input type="text" class="form-control" id="cc-number" formControlName="asma">
+                    <small class="invalid" *ngIf="formHistoriaClinica.get('presion')?.errors?.required && formHistoriaClinica.get('presion')?.touched">La presion es requerida</small>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="cc-number" class="form-label">Fuma</label>
+                    <input type="text" class="form-control" id="cc-number" formControlName="fuma">
+                    <small class="invalid" *ngIf="formHistoriaClinica.get('presion')?.errors?.required && formHistoriaClinica.get('presion')?.touched">La presion es requerida</small>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="cc-number" class="form-label">Operaciones</label>
+                    <input type="text" class="form-control" id="cc-number" formControlName="operaciones">
+                    <small class="invalid" *ngIf="formHistoriaClinica.get('presion')?.errors?.required && formHistoriaClinica.get('presion')?.touched">La presion es requerida</small>
+                  </div>
                 </div>
               </div>
               <div class="modal-footer">

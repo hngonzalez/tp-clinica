@@ -338,6 +338,10 @@ export class AuthService {
     let fbPeso = fb.get('peso')?.value;
     let fbTemperatura = fb.get('temperatura')?.value;
     let fbPresion = fb.get('presion')?.value;
+    let fbAsma = fb.get('asma')?.value;
+    let fbFuma = fb.get('fuma')?.value;
+    let fbOperaciones = fb.get('operaciones')?.value;
+
 
     let documentoGrabado;
 
@@ -349,7 +353,10 @@ export class AuthService {
       altura: fbAltura,
       peso: fbPeso,
       temperatura: fbTemperatura,
-      presion: fbPresion
+      presion: fbPresion,
+      asma: fbAsma,
+      fuma: fbFuma,
+      operaciones: fbOperaciones
     })
 
     documentoGrabado = true;
