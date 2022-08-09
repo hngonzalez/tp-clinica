@@ -364,6 +364,11 @@ export class AuthService {
     return documentoGrabado;
   }
 
+  getHistoriaClinica(): Observable<any> {
+    return this.db.collection('historiasClinicas').get();
+  }
+
+
   graboComentariosTurno(fb:FormGroup, paciente:string, idTurno:string) {
     let refTurnos = this.db.collection('turnos');
     let fbComentarios = fb.get('comentarios')?.value;

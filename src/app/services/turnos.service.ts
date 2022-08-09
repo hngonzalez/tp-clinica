@@ -435,19 +435,21 @@ export class TurnosService {
   }
 
   getHistoriaClinica(idTurno:string) {
+    let idDoc = localStorage.getItem('idDoc');
     let refTurnos = this.db.collection('historiasClinicas');
     //let fbComentarios = fb.get('comentarios')?.value;
     let listita = new Array();
     
-    refTurnos.ref.where("idTurno","==", idTurno).get().then((querySnapshot) => {
+
+    refTurnos.ref.where("idPaciente","==", idDoc).get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         //console.log(pacienteUnico);
           listita.push(doc.data())
       });
-  })
-  .catch((error) => {
-      console.log("Error getting documents: ", error);
-  });
+    })
+    .catch((error) => {
+        console.log("Error getting documents: ", error);
+    });
 
     return listita;
   }

@@ -20,7 +20,7 @@
                         <br>
                         {{dataUserTipo}}
                     </p>
-                    <button type="button" (click)="onSaveClinicalHistory()" class="btn btn-primary">Mi Historia Clínica</button>
+                    <button *ngIf="dataUserTipo == 'Paciente'" type="button" (click)="onSaveClinicalHistory()" class="btn btn-primary">Mi Historia Clínica</button>
                 </div>
             </div>
         </div>

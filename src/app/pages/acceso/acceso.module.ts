@@ -16,7 +16,7 @@ import { TurnoElegidoComponent } from './solicitar-turno/turno-elegido/turno-ele
 import { AlergistaComponent } from './solicitar-turno/components/alergista/alergista.component';
 import { EspecialistasPorEspecialidadComponent } from './solicitar-turno/components/especialistas-por-especialidad/especialistas-por-especialidad.component';
 import { ListaPacientesComponent } from './pacientes/components/lista-pacientes/lista-pacientes.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -39,6 +39,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    FormsModule,
     AccesoRoutingModule
   ]
 })

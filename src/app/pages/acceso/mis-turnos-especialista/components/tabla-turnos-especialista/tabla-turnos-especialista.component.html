@@ -1,5 +1,5 @@
 <div class="input-group">
-  <input  id="search" (change)="buscar()" type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+  <input  id="search" [ngModel]="filter" (ngModelChange)="buscar($event)" type="text" class="form-control rounded" placeholder="Search" aria-label="Search"
           aria-describedby="search-addon" />
   <select id="selFiltro" class="form-select" aria-label="Default select example">
     <option selected>Open this select menu</option>
@@ -70,6 +70,31 @@
         </div>
       </div>
     </form>
+  </div>
+</div>
+
+<div class="modal fade" id="modalHistoriaClinica" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+   
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Comentarios del turno:</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row"> 
+            <div class="mb-3">
+              <p>
+                {{comentariosTurno}}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    
   </div>
 </div>
 
