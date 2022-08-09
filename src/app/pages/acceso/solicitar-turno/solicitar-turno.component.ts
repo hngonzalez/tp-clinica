@@ -1,3 +1,4 @@
+import { style, transition, animate, state, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
@@ -6,7 +7,21 @@ import { TurnosService } from 'src/app/services/turnos.service';
 @Component({
   selector: 'app-solicitar-turno',
   templateUrl: './solicitar-turno.component.html',
-  styleUrls: ['./solicitar-turno.component.css']
+  styleUrls: ['./solicitar-turno.component.css'],
+  animations: [
+    trigger('enterState', [
+      state('void', style({
+        transform: 'translateY(-100%)',
+        opacity:0
+      })),
+      transition(':enter',[
+        animate(300,style({
+          transform:'translateY(0)',
+          opacity:1
+        }))
+      ])
+    ])
+  ]
 })
 export class SolicitarTurnoComponent implements OnInit {
   listaEspecialidades!:any;

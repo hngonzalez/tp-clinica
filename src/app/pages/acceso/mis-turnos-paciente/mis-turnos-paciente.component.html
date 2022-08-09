@@ -1,11 +1,11 @@
-<div class="container">
+<div @enterState class="container">
     <input type="search" class="form-control" placeholder="Search..." aria-label="Search" >
     <app-tabla-turnos-paciente [filtroMisTurnos]='filtroMisTurnos'></app-tabla-turnos-paciente>
     <button data-bs-toggle="modal" data-bs-target="#modalHistoriaClinica" class="btn btn-warning" (click)="getClinicalHistory()">Historial Clínico</button>
 </div>
 
 
-<div class="modal fade" id="modalHistoriaClinica" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div @enterState class="modal fade" id="modalHistoriaClinica" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
@@ -41,7 +41,7 @@
                 </div>
             </div>
 
-            <div *ngIf="!existData">
+            <div *ngIf="existData">
                 No existen registros
             </div>
             <div class="modal-footer">

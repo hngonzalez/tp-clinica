@@ -1,4 +1,4 @@
-<div class="container">
+<div @enterState class="container">
     <div class="row gutters">
     <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
     <div class="card h-100">
@@ -20,7 +20,7 @@
                         <br>
                         {{dataUserTipo}}
                     </p>
-                    <button *ngIf="dataUserTipo == 'Paciente'" type="button" (click)="onSaveClinicalHistory()" class="btn btn-primary">Mi Historia Clínica</button>
+                    <button *ngIf="dataUserTipo == 'Paciente'" data-bs-toggle="modal" data-bs-target="#modalHistoriaClinica"  title="Share As PDF" type="button" (click)="onSaveClinicalHistory()" class="btn btn-primary">Mi Historia Clínica</button>
                 </div>
             </div>
         </div>
@@ -193,3 +193,53 @@
     </div>
     </div>
     </div>
+
+
+    
+
+<div class="modal fade" id="modalHistoriaClinica" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Historia Clínica:</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="pdfTable" #pdfTable *ngIf="existData" class="modal-body">
+                <div class="row" *ngFor="let historia of arrayHistoriaClinica"> 
+                    <div class="mb-3">
+                        <p>
+                            Fecha: {{historia.fechaCreacion.seconds * 1000 | date}}
+                        </p>
+                        <p>
+                        Turno: {{historia.idTurno}}
+                        </p>
+                        <p>
+                            Altura: {{historia.altura}}
+                        </p>
+                        <p>
+                            IMC: {{historia.imc}}
+                        </p>
+                        <p>
+                            Fuma: {{historia.fuma}}
+                        </p>
+                        <p>
+                            Temperatura: {{historia.temperatura}}
+                        </p>
+                        <p>
+                            Peso: {{historia.peso}}
+                        </p>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+
+            <div *ngIf="existData">
+                No existen registros
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-outline" (click)="savePdf()">PDF</button>
+            </div>
+        </div>
+    </div>
+</div>

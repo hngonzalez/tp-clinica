@@ -1,9 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { style, animate, transition, state, trigger } from '@angular/animations';
+import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { StorageIMGService } from 'src/app/services/storage-img.service';
 import { TurnosService } from 'src/app/services/turnos.service';
 import { Workbook } from "exceljs";
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 //import * as fs from 'file-saver';
 const fs = require('file-saver');
 
@@ -12,7 +15,21 @@ const fs = require('file-saver');
 @Component({
   selector: 'app-mi-perfil',
   templateUrl: './mi-perfil.component.html',
-  styleUrls: ['./mi-perfil.component.css']
+  styleUrls: ['./mi-perfil.component.css'],
+  animations: [
+    trigger('enterState', [
+      state('void', style({
+        transform: 'translateY(100%)',
+        opacity:0
+      })),
+      transition(':enter',[
+        animate(300,style({
+          transform:'translateY(0)',
+          opacity:1
+        }))
+      ])
+    ])
+  ]
 })
 export class MiPerfilComponent implements OnInit {
   disponibilidadHoraria!:any;
@@ -23,6 +40,10 @@ export class MiPerfilComponent implements OnInit {
   urlImg!:Observable<string>;
   diasMes!:any;
   xlsGenerado!:boolean;
+  arrayHistoriaClinica: any[] = []
+  existData: boolean = false;
+
+  @ViewChild('pdfTable', {static: false}) pdfTable?: ElementRef;
 
   /* Para datos del usuario */
   dataUserNombre:string;
@@ -34,7 +55,7 @@ export class MiPerfilComponent implements OnInit {
   dataUserPhotoProfile!:string;
 
   constructor(private turnosService:TurnosService,
-              private auth:AuthService,
+              private _authService:AuthService,
               private storageImg:StorageIMGService) { 
     this.disponibilidadHoraria = [
       '8:00','9:00','10:00','11:00','12:00','13:00','14:00','15:00'
@@ -70,7 +91,7 @@ export class MiPerfilComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.listaEspecialidades = this.auth.listaEspecialidades();
+    this.listaEspecialidades = this._authService.listaEspecialidades();
     //console.log(localStorage);
   }
 
@@ -130,7 +151,7 @@ export class MiPerfilComponent implements OnInit {
     let nombre = (<HTMLSelectElement>document.getElementById('nombre')).value;
     let apellido = (<HTMLInputElement>document.getElementById('apellido')).value;
 
-    this.auth.actualizarDatosPerfil(nombre, apellido);
+    this._authService.actualizarDatosPerfil(nombre, apellido);
     this.graboDatos = true
   }
 
@@ -147,7 +168,7 @@ export class MiPerfilComponent implements OnInit {
     //Excel Title, Header, Data
     const title = 'Car Sell Report';
     const header = ["Nombre", "Apellido", "Mail", "Tipo", "Habilitado"]
-    let data = this.auth.loteUsers();
+    let data = this._authService.loteUsers();
     let renglon = new Array();
     setTimeout(function(){
 
@@ -188,6 +209,23 @@ export class MiPerfilComponent implements OnInit {
   }
 
   onSaveClinicalHistory() {
-    
+    const idDoc = localStorage.getItem('idDoc');
+    this._authService.getHistoriaClinica()
+    .subscribe( resp =>{
+      resp.forEach((element:any) => {
+        if (idDoc == element.data().idPaciente) {
+          this.existData = true;
+          this.arrayHistoriaClinica?.push(element.data());  
+        }  
+      });
+    })
+  }
+
+  async savePdf() {
+      const doc = new jsPDF('p', 'pt', 'a4');
+      const div = this.pdfTable?.nativeElement;
+      await doc.html(div);
+      doc.save('Historial.pdf'); // save / download
+      //doc.output('dataurlnewwindow'); // just open it
   }
 }
