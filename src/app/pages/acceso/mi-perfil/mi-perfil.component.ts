@@ -186,4 +186,8 @@ export class MiPerfilComponent implements OnInit {
 
     
   }
+
+  onSaveClinicalHistory() {
+    
+  }
 }

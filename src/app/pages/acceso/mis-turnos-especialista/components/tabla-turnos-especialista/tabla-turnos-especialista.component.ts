@@ -14,6 +14,7 @@ export class TablaTurnosEspecialistaComponent implements OnInit {
   formHistoriaClinica!:FormGroup;
   historiaGrabada!:boolean;
   comentariosTurno!:string;
+  filter?: string;
 
   /* Datos elegidos */
   pacienteElegido!:string;
@@ -73,7 +74,8 @@ export class TablaTurnosEspecialistaComponent implements OnInit {
     }
   }
 
-  async buscar() {
+  async buscar(event: any) {
+    console.log(event)
     let valSelFiltro = (<HTMLInputElement>document.getElementById('selFiltro')).value
     let valFiltro = (<HTMLInputElement>document.getElementById('search')).value
     this.listaMisTurnos = await this.turnosService.obtenerMisTurnos(valFiltro, valSelFiltro);

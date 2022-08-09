@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,10 +8,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MisTurnosPacienteComponent implements OnInit {
   filtroMisTurnos!:any;
-  
-  constructor() { }
+  arrayHistoriaClinica?: any[] = [];
+  existData: boolean = false;  
+
+  constructor(
+    private _authService: AuthService
+  ) { }
 
   ngOnInit(): void {
   }
 
+  getClinicalHistory() {
+    const idDoc = localStorage.getItem('idDoc');
+    
+
+    this._authService.getHistoriaClinica()
+    .subscribe( resp =>{
+      resp.forEach((element:any) => {
+        if (idDoc == element.data().paciente) {
+          this.existData = true;
+          this.arrayHistoriaClinica?.push(element.data());  
+        }  
+      });
+    })
+  }
 }

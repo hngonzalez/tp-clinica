@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { TurnosService } from 'src/app/services/turnos.service';
 
@@ -18,14 +18,20 @@ export class ListaPacientesComponent implements OnInit {
   turnoElegido!:string;
   click!:boolean;
 
-  constructor(private turnos:TurnosService,
-              private auth:AuthService,
-              private fb:FormBuilder) { 
+  constructor(
+    private turnos:TurnosService,
+    private auth:AuthService,
+    private fb:FormBuilder
+  ) { 
     this.formHistoriaClinica = fb.group({
       'altura': ['', Validators.required],
       'peso': ['', Validators.required],
-      'presion': ['', Validators.required],
-      'temperatura': ['', Validators.required]
+      'presion': ['', new FormControl('', Validators.required)],
+      'temperatura': ['', new FormControl('', Validators.required)],
+      'edad': ['', new FormControl('', Validators.required)],
+      'asma': ['', new FormControl('', Validators.required)],
+      'fuma': ['', new FormControl('', Validators.required)],
+      'operaciones': ['', new FormControl('', Validators.required)]
     });
   }
 
